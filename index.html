@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Conheça a Coimbra Barbearia e agende seu horário com atendimento cuidadoso e atenção aos detalhes.">
+  <title>Coimbra Barbearia | Seu estilo. Sua assinatura.</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="cabecalho">
+    <a class="marca" href="index.html" aria-label="Coimbra Barbearia — página inicial">
+      <img src="imagens/logo-coimbra.jpg" alt="Logotipo da Coimbra Barbearia">
+      <span class="marca-nome">COIMBRA <small>BARBEARIA</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="sr-only">Abrir menu</span><span aria-hidden="true">☰</span>
+    </button>
+    <nav id="menu-principal" class="menu" aria-label="Navegação principal"><a href="index.html" aria-current="page">Início</a><a href="pages/servicos.html">Serviços</a><a href="pages/sobre.html">A barbearia</a><a href="pages/contato.html">Contato</a><a class="menu-agendar" href="pages/agendar.html">Agendar horário</a></nav>
+  </header>
+
+  <main id="conteudo">
+
+    <section class="destaque" aria-labelledby="titulo-destaque">
+      <div class="destaque-caixa">
+        <h1 id="titulo-destaque">Seu estilo.<br>Sua assinatura.</h1>
+        <p>Mais do que cortar cabelo: um momento para cuidar de você, com técnica, atenção aos detalhes e personalidade.</p>
+        <div class="grupo-botoes">
+          <a class="botao" href="pages/agendar.html">Agendar horário</a>
+          <a class="botao botao-contorno" href="pages/sobre.html">Conheça a barbearia</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carrossel -->
+    <section class="secao" aria-labelledby="titulo-carrossel">
+      <div class="container">
+        <h2 id="titulo-carrossel">Conheça o espaço</h2>
+        <div class="carrossel" data-carrossel role="region" aria-roledescription="carrossel" aria-label="Fotos da barbearia">
+          <figure class="slide ativo"><img src="imagens/barbearia-ambiente.jpg" alt="Ambiente de barbearia com espelhos e cadeiras profissionais"><figcaption>O ambiente</figcaption></figure>
+          <figure class="slide"><img src="imagens/barbeiro-corte.jpg" alt="Barbeiro fazendo o acabamento no cabelo de um cliente" loading="lazy"><figcaption>Precisão no acabamento</figcaption></figure>
+          <figure class="slide"><img src="imagens/atendimento.jpg" alt="Profissional trabalhando no visual de um cliente" loading="lazy"><figcaption>Seu próximo visual</figcaption></figure>
+          <div class="carrossel-controles">
+            <button class="seta seta-anterior" type="button" aria-label="Foto anterior">‹</button>
+            <button class="seta seta-proxima" type="button" aria-label="Próxima foto">›</button>
+          </div>
+          <div class="pontos">
+            <button class="ponto" type="button" aria-label="Ir para a foto 1"></button>
+            <button class="ponto" type="button" aria-label="Ir para a foto 2"></button>
+            <button class="ponto" type="button" aria-label="Ir para a foto 3"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Apresentação -->
+    <section class="secao secao-painel" aria-labelledby="titulo-apresentacao">
+      <div class="container apresentacao">
+        <div>
+          <h2 id="titulo-apresentacao">A tradição está no corte. A diferença, no cuidado.</h2>
+        </div>
+        <div>
+          <p>A Coimbra Barbearia une a atmosfera clássica das barbearias tradicionais a um olhar atual sobre o estilo masculino. Cada atendimento começa ouvindo o cliente e entendendo o resultado que ele procura.</p>
+          <div class="grupo-botoes">
+            <a class="botao" href="pages/agendar.html">Agendar horário</a>
+            <a class="botao botao-contorno" href="pages/sobre.html">Saiba mais sobre a barbearia</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-marca"><img src="imagens/logo-coimbra.jpg" alt="" aria-hidden="true">COIMBRA BARBEARIA</div>
+    <nav class="rodape-links" aria-label="Rodapé">
+      <a href="index.html">Início</a><a href="pages/servicos.html">Serviços</a><a href="pages/sobre.html">A barbearia</a><a href="pages/contato.html">Contato</a><a href="pages/agendar.html">Agendar horário</a>
+    </nav>
+    <small>© <span id="ano"></span> Coimbra Barbearia. Todos os direitos reservados.</small>
+  </footer>
+
+  <script src="js/dados.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

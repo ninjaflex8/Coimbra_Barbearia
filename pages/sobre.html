@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Conheça a história, os diferenciais e o ambiente da Coimbra Barbearia.">
+  <title>A barbearia | Coimbra Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="cabecalho">
+    <a class="marca" href="../index.html" aria-label="Coimbra Barbearia — página inicial">
+      <img src="../imagens/logo-coimbra.jpg" alt="Logotipo da Coimbra Barbearia">
+      <span class="marca-nome">COIMBRA <small>BARBEARIA</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="sr-only">Abrir menu</span><span aria-hidden="true">☰</span>
+    </button>
+    <nav id="menu-principal" class="menu" aria-label="Navegação principal"><a href="../index.html">Início</a><a href="servicos.html">Serviços</a><a href="sobre.html" aria-current="page">A barbearia</a><a href="contato.html">Contato</a><a class="menu-agendar" href="agendar.html">Agendar horário</a></nav>
+  </header>
+
+  <div class="banner-pagina">
+    <img src="../imagens/banner-coimbra.jpg" alt="">
+  </div>
+
+  <main id="conteudo">
+
+    <section class="cabecalho-simples" aria-labelledby="titulo-pagina">
+      <div class="container">
+        <h1 id="titulo-pagina">A barbearia</h1>
+        <p>Tradição no corte, cuidado nos detalhes.</p>
+      </div>
+    </section>
+
+    <!-- História -->
+    <section class="historia" aria-labelledby="titulo-historia">
+      <img src="../imagens/barbearia-interior.jpg" alt="Interior de barbearia com cadeira clássica e espelho">
+      <div class="historia-texto">
+        <h2 id="titulo-historia">Nossa história</h2>
+        <p>A Coimbra Barbearia nasceu para unir a atmosfera clássica das barbearias tradicionais a um olhar atual sobre o estilo masculino.</p>
+        <p>Cada atendimento começa ouvindo o cliente. O objetivo é que você saia bem cuidado, confiante e com um visual que faça sentido para você.</p>
+        <p class="texto-suave"><em>Texto de exemplo: substitua pela história real da barbearia.</em></p>
+      </div>
+    </section>
+
+    <section class="secao" aria-labelledby="titulo-diferenciais">
+      <div class="container">
+        <h2 id="titulo-diferenciais">Nossos diferenciais</h2>
+        <div class="diferenciais">
+          <div class="diferencial"><h3>Atendimento cuidadoso</h3><p>Seu estilo em primeiro lugar, do primeiro contato ao acabamento.</p></div>
+          <div class="diferencial"><h3>Técnica e precisão</h3><p>Do corte clássico ao moderno, com atenção a cada detalhe.</p></div>
+          <div class="diferencial"><h3>Ambiente com identidade</h3><p>Conforto sem perder a tradição da barbearia.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galeria -->
+    <section class="secao secao-painel" aria-labelledby="titulo-galeria">
+      <div class="container">
+        <h2 id="titulo-galeria">Galeria</h2>
+        <div class="galeria">
+          <figure><img src="../imagens/barbearia-ambiente.jpg" alt="Ambiente da barbearia" loading="lazy"><figcaption>O ambiente</figcaption></figure>
+          <figure><img src="../imagens/barbeiro-corte.jpg" alt="Barbeiro fazendo acabamento" loading="lazy"><figcaption>Precisão no acabamento</figcaption></figure>
+          <figure><img src="../imagens/atendimento.jpg" alt="Profissional atendendo um cliente" loading="lazy"><figcaption>Seu próximo visual</figcaption></figure>
+        </div>
+        <p class="nota-preco">Imagens de exemplo. Troque por fotos reais da barbearia.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-marca"><img src="../imagens/logo-coimbra.jpg" alt="" aria-hidden="true">COIMBRA BARBEARIA</div>
+    <nav class="rodape-links" aria-label="Rodapé">
+      <a href="../index.html">Início</a><a href="servicos.html">Serviços</a><a href="sobre.html">A barbearia</a><a href="contato.html">Contato</a><a href="agendar.html">Agendar horário</a>
+    </nav>
+    <small>© <span id="ano"></span> Coimbra Barbearia. Todos os direitos reservados.</small>
+  </footer>
+
+  <script src="../js/dados.js"></script>
+  <script src="../js/script.js"></script>
+</body>
+</html>
