@@ -1,4 +1,4 @@
-/* Base */
+/* Estrutura geral, tipografia e acessibilidade */
 * { box-sizing: border-box; }
 html { scroll-padding-top: 100px; }
 body {
@@ -30,7 +30,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .secao-painel { background: #141414; }
 .eyebrow-azul { color: #3b82f6; font-weight: 700; font-size: .85rem; margin-bottom: 12px; }
 
-/* Botões */
+/* Botões e grupos de ações */
 .botao {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 48px; padding: 12px 24px;
@@ -43,7 +43,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .botao:disabled { background: #2b2b2b; border-color: #2b2b2b; color: #8a8a8a; cursor: not-allowed; }
 .grupo-botoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
 
-/* Cabeçalho */
+/* Cabeçalho fixo, marca e navegação */
 .cabecalho {
   position: sticky; top: 0; z-index: 20;
   height: 88px; padding: 0 6vw;
@@ -64,7 +64,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .banner-pagina { height: clamp(360px, 42vw, 640px); background: #000000; display: flex; justify-content: center; }
 .banner-pagina img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Destaque */
+/* Página inicial: destaque principal */
 .destaque {
   min-height: 640px; display: flex; align-items: center; justify-content: flex-end;
   padding: 70px 6vw;
@@ -73,7 +73,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .destaque-caixa { background: #000000; border-left: 6px solid #1f6feb; padding: clamp(28px, 5vw, 56px); max-width: 460px; }
 .destaque-caixa p { color: #b8b8b8; max-width: 460px; }
 
-/* Carrossel */
+/* Página inicial: galeria em carrossel */
 .carrossel { position: relative; background: #141414; }
 .slide { display: none; }
 .slide.ativo { display: block; }
@@ -86,12 +86,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .ponto { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #ffffff; background: transparent; padding: 0; cursor: pointer; }
 .ponto.ativo { background: #1f6feb; border-color: #1f6feb; }
 
-/* Apresentação */
+/* Página inicial: apresentação da barbearia */
 .apresentacao { display: flex; gap: 60px; align-items: center; }
 .apresentacao > div { flex: 1; }
 .apresentacao p { color: #b8b8b8; max-width: 520px; }
 
-/* Serviços */
+/* Componentes reutilizados: cartões de serviço */
 .cartoes { display: flex; flex-wrap: wrap; gap: 20px; }
 .cartao-servico { background: #141414; border: 1px solid #2b2b2b; border-top: 5px solid #1f6feb; padding: 26px; display: flex; flex-direction: column; }
 .cartoes:not(.cartoes-lista) .cartao-servico { flex: 0 0 calc((100% - 40px) / 3); }
@@ -144,21 +144,18 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .passo legend { font-family: Georgia, serif; font-size: 1.7rem; font-weight: 600; padding: 0; margin-bottom: 14px; }
 .passo legend span { display: inline-block; background: #1f6feb; width: 32px; height: 32px; line-height: 32px; text-align: center; font: 700 .9rem Arial, sans-serif; margin-right: 10px; vertical-align: middle; }
 .opcoes { display: flex; flex-direction: column; gap: 10px; }
-.opcao input, .horario input { position: absolute; opacity: 0; }
+.opcao input { position: absolute; opacity: 0; }
 .opcao-corpo { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; padding: 16px 18px; background: #141414; border: 2px solid #2b2b2b; cursor: pointer; }
 .opcao-corpo strong { flex: 1; }
 .opcao-corpo small { color: #b8b8b8; }
 .opcao-corpo .preco { margin-left: auto; }
 .opcao input:checked + .opcao-corpo { border-color: #1f6feb; background: #1f6feb; }
 .opcao input:checked + .opcao-corpo .preco, .opcao input:checked + .opcao-corpo small { color: #ffffff; }
-.opcao input:focus-visible + .opcao-corpo, .horario input:focus-visible + span { outline: 3px solid #ffffff; outline-offset: 3px; }
+.opcao input:focus-visible + .opcao-corpo { outline: 3px solid #ffffff; outline-offset: 3px; }
 .campo label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; }
 .campo input { width: 100%; min-height: 48px; padding: 10px 14px; background: #000000; border: 2px solid #2b2b2b; color: #ffffff; font: inherit; border-radius: 0; color-scheme: dark; }
 .campo input:focus { border-color: #1f6feb; }
 .aviso { color: #b8b8b8; font-size: .85rem; min-height: 1.4em; margin: 8px 0 0; }
-.horarios { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-.horario span { display: block; padding: 10px 18px; background: #141414; border: 2px solid #2b2b2b; font-weight: 600; cursor: pointer; }
-.horario input:checked + span { background: #1f6feb; border-color: #1f6feb; }
 .resumo { flex: 1; background: #141414; border: 1px solid #2b2b2b; border-top: 5px solid #1f6feb; padding: 26px; position: sticky; top: 110px; }
 .resumo h2 { font-size: 1.9rem; }
 .previa { background: #000000; border: 1px solid #2b2b2b; padding: 16px; margin: 0 0 18px; white-space: pre-wrap; font: .85rem/1.6 Arial, sans-serif; color: #b8b8b8; }
@@ -173,7 +170,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .rodape-links a:hover { color: #3b82f6; }
 .rodape small { width: 100%; border-top: 1px solid #2b2b2b; padding-top: 16px; color: #b8b8b8; }
 
-/* Layout responsivo */
+/* Adaptações para tablets e celulares */
 @media (max-width: 900px) {
   .menu-toggle { display: block; }
   .menu { display: none; position: absolute; top: 88px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 16px; padding: 20px 6vw 26px; background: #000000; border-bottom: 3px solid #1f6feb; }

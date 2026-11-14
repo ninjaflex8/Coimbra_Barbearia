@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Escolha o serviço, a data e o horário e envie o pedido de agendamento pelo WhatsApp.">
+  <meta name="description" content="Escolha o serviço e a data desejada e envie o pedido de agendamento pelo WhatsApp.">
   <title>Agendar horário | Coimbra Barbearia</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo principal</a>
 
+  <!-- Cabeçalho e navegação principal -->
   <header class="cabecalho">
     <a class="marca" href="../index.html" aria-label="Coimbra Barbearia — página inicial">
       <img src="../imagens/logo-coimbra.jpg" alt="Logotipo da Coimbra Barbearia">
@@ -22,6 +23,7 @@
     <nav id="menu-principal" class="menu" aria-label="Navegação principal"><a href="../index.html">Início</a><a href="servicos.html">Serviços</a><a href="sobre.html">A barbearia</a><a href="contato.html">Contato</a><a class="menu-agendar" href="agendar.html" aria-current="page">Agendar horário</a></nav>
   </header>
 
+  <!-- Banner compartilhado pelas páginas internas -->
   <div class="banner-pagina">
     <img src="../imagens/banner-coimbra.jpg" alt="">
   </div>
@@ -31,13 +33,14 @@
     <section class="cabecalho-simples" aria-labelledby="titulo-pagina">
       <div class="container">
         <h1 id="titulo-pagina">Agende seu horário</h1>
-        <p>Escolha o serviço, a data e o horário. O pedido é enviado pelo WhatsApp e a barbearia confirma com você.</p>
+        <p>Escolha o serviço e a data desejada. Envie o pedido pelo WhatsApp e aguarde a confirmação da barbearia.</p>
       </div>
     </section>
 
     <section class="secao" aria-label="Formulário de agendamento">
       <div class="container agendar-grade">
 
+        <!-- O JavaScript cria as opções e atualiza o resumo do pedido -->
         <form id="form-agendamento" novalidate>
           <fieldset class="passo">
             <legend><span>1</span>Escolha o serviço</legend>
@@ -45,13 +48,12 @@
           </fieldset>
 
           <fieldset class="passo">
-            <legend><span>2</span>Escolha a data e o horário</legend>
+            <legend><span>2</span>Escolha a data</legend>
             <div class="campo">
               <label for="data">Data</label>
               <input type="date" id="data" name="data" aria-describedby="aviso-data" required>
             </div>
             <p id="aviso-data" class="aviso" role="status"></p>
-            <div id="opcoes-horario" class="horarios" role="radiogroup" aria-label="Horários disponíveis"></div>
           </fieldset>
 
           <fieldset class="passo">
@@ -63,19 +65,21 @@
           </fieldset>
         </form>
 
+        <!-- Prévia da mensagem, com ações para enviar ou copiar -->
         <aside class="resumo">
           <h2>Sua mensagem</h2>
           <pre id="previa" class="previa"></pre>
           <button class="botao" id="btn-enviar" type="submit" form="form-agendamento" disabled>Enviar pelo WhatsApp</button>
           <button class="botao botao-contorno" id="btn-copiar" type="button" disabled>Copiar mensagem</button>
           <p id="aviso-copia" class="aviso" role="status"></p>
-          <p class="aviso">O horário só fica reservado depois da confirmação da barbearia.</p>
+          <p class="aviso">A barbearia confirmará a disponibilidade da data pelo WhatsApp.</p>
         </aside>
 
       </div>
     </section>
   </main>
 
+  <!-- Links de navegação e direitos autorais -->
   <footer class="rodape">
     <div class="rodape-marca"><img src="../imagens/logo-coimbra.jpg" alt="" aria-hidden="true">COIMBRA BARBEARIA</div>
     <nav class="rodape-links" aria-label="Rodapé">

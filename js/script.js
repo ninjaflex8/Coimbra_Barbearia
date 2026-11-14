@@ -1,20 +1,19 @@
-/* Funções auxiliares */
+/* Formatação, datas e mensagens do WhatsApp */
 function formatarPreco(valor) {
-  const texto = valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  return texto.replace(/\u00a0/g, " ");
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+    .replace(/\u00a0/g, " ");
 }
 
-function formatarData(textoData) {
-  const [ano, mes, dia] = textoData.split("-").map(Number);
-  const data = new Date(ano, mes - 1, dia);
-  return data.toLocaleDateString("pt-BR", {
-    weekday: "long", day: "numeric", month: "long", year: "numeric"
-  });
-}
-
+// Cria a data no fuso local para evitar mudanças de dia por causa do UTC.
 function lerData(textoData) {
   const [ano, mes, dia] = textoData.split("-").map(Number);
   return new Date(ano, mes - 1, dia);
+}
+
+function formatarData(textoData) {
+  return lerData(textoData).toLocaleDateString("pt-BR", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric"
+  });
 }
 
 function dataParaTexto(data) {
@@ -23,15 +22,17 @@ function dataParaTexto(data) {
   return `${data.getFullYear()}-${mes}-${dia}`;
 }
 
-function montarMensagem(nome, servico, textoData, horario) {
+// Monta a mensagem pronta que será enviada ou copiada pelo cliente.
+function montarMensagem(nome, servico, textoData) {
   return [
-    "Olá! Gostaria de solicitar um agendamento:",
+    "Olá! Gostaria de agendar:",
     "",
     `*Nome:* ${nome}`,
     `*Serviço:* ${servico.nome}`,
-    `*Data:* ${formatarData(textoData)}`,
-    `*Horário:* ${horario}`,
-    `*Valor:* ${formatarPreco(servico.preco)}`
+    `*Data desejada:* ${formatarData(textoData)}`,
+    `*Valor:* ${formatarPreco(servico.preco)}`,
+    "",
+    "Por favor, confirme a disponibilidade para essa data."
   ].join("\n");
 }
 
@@ -41,7 +42,7 @@ function criarLinkWhatsApp(texto = "") {
   return `https://wa.me/${numero}${mensagem}`;
 }
 
-/* Menu */
+/* Menu: alterna entre aberto e fechado, inclusive após navegar */
 function iniciarMenu() {
   const botao = document.querySelector(".menu-toggle");
   const menu = document.querySelector("#menu-principal");
@@ -62,14 +63,14 @@ function iniciarMenu() {
   });
 }
 
-/* Ano no rodapé */
+/* Rodapé: mantém o ano atualizado automaticamente */
 function iniciarAno() {
   document.querySelectorAll("#ano").forEach(el => {
     el.textContent = new Date().getFullYear();
   });
 }
 
-/* Lista de serviços */
+/* Catálogo: cria os cartões a partir dos dados de serviços */
 function iniciarListaServicos() {
   const paginaAgendamento = location.pathname.split("/").includes("pages")
     ? "agendar.html"
@@ -91,7 +92,7 @@ function iniciarListaServicos() {
   });
 }
 
-/* Contato */
+/* Contato: preenche os dados e o link de conversa */
 function iniciarContato() {
   document.querySelectorAll("[data-campo]").forEach(el => {
     const valor = BARBEARIA[el.dataset.campo];
@@ -102,7 +103,7 @@ function iniciarContato() {
   });
 }
 
-/* Carrossel */
+/* Carrossel: troca a foto pelas setas e pelos indicadores */
 function iniciarCarrossel() {
   const carrossel = document.querySelector("[data-carrossel]");
   if (!carrossel) return;
@@ -129,7 +130,7 @@ function iniciarCarrossel() {
   mostrar(0);
 }
 
-/* Agendamento */
+/* Agendamento: controla escolhas, prévia, cópia e envio pelo WhatsApp */
 function iniciarAgendamento() {
   const formulario = document.querySelector("#form-agendamento");
   if (!formulario) return;
@@ -137,15 +138,15 @@ function iniciarAgendamento() {
   const listaServicos = document.querySelector("#opcoes-servico");
   const campoData = document.querySelector("#data");
   const avisoData = document.querySelector("#aviso-data");
-  const listaHorarios = document.querySelector("#opcoes-horario");
   const campoNome = document.querySelector("#nome");
   const previa = document.querySelector("#previa");
   const botaoEnviar = document.querySelector("#btn-enviar");
   const botaoCopiar = document.querySelector("#btn-copiar");
   const avisoCopia = document.querySelector("#aviso-copia");
 
-  const escolha = { servicoId: null, data: "", horario: "" };
+  const escolha = { servicoId: null, data: "" };
 
+  // Cria as opções do formulário usando o catálogo central de serviços.
   listaServicos.innerHTML = SERVICOS.map(s => `
     <label class="opcao">
       <input type="radio" name="servico" value="${s.id}" required>
@@ -169,6 +170,7 @@ function iniciarAgendamento() {
     atualizarPrevia();
   });
 
+  // Limita o calendário aos próximos 60 dias.
   const hoje = new Date();
   const limite = new Date();
   limite.setDate(hoje.getDate() + 60);
@@ -176,9 +178,7 @@ function iniciarAgendamento() {
   campoData.max = dataParaTexto(limite);
 
   campoData.addEventListener("change", () => {
-    escolha.horario = "";
     avisoData.textContent = "";
-    listaHorarios.innerHTML = "";
 
     if (!campoData.value) {
       escolha.data = "";
@@ -187,21 +187,7 @@ function iniciarAgendamento() {
       avisoData.textContent = "Não atendemos neste dia da semana. Escolha outra data.";
     } else {
       escolha.data = campoData.value;
-      mostrarHorarios();
     }
-    atualizarPrevia();
-  });
-
-  function mostrarHorarios() {
-    listaHorarios.innerHTML = HORARIOS.map(h => `
-      <label class="horario">
-        <input type="radio" name="horario" value="${h}" required>
-        <span>${h}</span>
-      </label>
-    `).join("");
-  }
-  listaHorarios.addEventListener("change", evento => {
-    escolha.horario = evento.target.value;
     atualizarPrevia();
   });
 
@@ -210,12 +196,12 @@ function iniciarAgendamento() {
   function atualizarPrevia() {
     const servico = SERVICOS.find(s => s.id === escolha.servicoId);
     const nome = campoNome.value.trim();
-    const completo = servico && escolha.data && escolha.horario && nome;
+    const completo = servico && escolha.data && nome;
 
     if (completo) {
-      previa.textContent = montarMensagem(nome, servico, escolha.data, escolha.horario);
+      previa.textContent = montarMensagem(nome, servico, escolha.data);
     } else {
-      previa.textContent = "Preencha o serviço, a data, o horário e o seu nome para ver a mensagem.";
+      previa.textContent = "Preencha o serviço, a data e o seu nome para ver a mensagem.";
     }
     botaoEnviar.disabled = !completo;
     botaoCopiar.disabled = !completo;
@@ -239,7 +225,7 @@ function iniciarAgendamento() {
   atualizarPrevia();
 }
 
-/* Inicialização */
+/* Ativa somente os recursos presentes na página atual */
 iniciarMenu();
 iniciarAno();
 iniciarListaServicos();

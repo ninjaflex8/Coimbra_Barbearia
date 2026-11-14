@@ -1,12 +1,12 @@
 const BARBEARIA = {
-  // WhatsApp com código do país e DDD.
+  // Dados exibidos na página de contato e usados nos links de WhatsApp.
   whatsapp: "554891022321",
   endereco: "Centro, Morro da Fumaça - SC, 88830-000",
-  telefone: "(48) 9102-2321",
+  telefone: "(48) 99102-2321",
   funcionamento: "Segunda a sábado, das 9h às 20h"
 };
 
-// Serviços
+// Serviços exibidos no catálogo e no formulário de agendamento.
 const SERVICOS = [
   {
     id: "corte-adulto",
@@ -58,12 +58,12 @@ const SERVICOS = [
   }
 ];
 
-// Horários disponíveis
+// Horários que podem ser selecionados no formulário.
 const HORARIOS = [
   "09:00", "09:45", "10:30", "11:15",
   "14:00", "14:45", "15:30", "16:15", "17:00", "17:45",
   "18:30", "19:15"
 ];
 
-// Dias sem atendimento (0 = domingo).
+// Dias sem atendimento: 0 = domingo, 1 = segunda-feira, ..., 6 = sábado.
 const DIAS_FECHADOS = [0];
