@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Endereço, telefone e horário de funcionamento da Coimbra Barbearia.">
+  <title>Contato | Coimbra Barbearia</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <header class="cabecalho">
+    <a class="marca" href="../index.html" aria-label="Coimbra Barbearia — página inicial">
+      <img src="../imagens/logo-coimbra.jpg" alt="Logotipo da Coimbra Barbearia">
+      <span class="marca-nome">COIMBRA <small>BARBEARIA</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span class="sr-only">Abrir menu</span><span aria-hidden="true">☰</span>
+    </button>
+    <nav id="menu-principal" class="menu" aria-label="Navegação principal"><a href="../index.html">Início</a><a href="servicos.html">Serviços</a><a href="sobre.html">A barbearia</a><a href="contato.html" aria-current="page">Contato</a><a class="menu-agendar" href="agendar.html">Agendar horário</a></nav>
+  </header>
+
+  <div class="banner-pagina">
+    <img src="../imagens/banner-coimbra.jpg" alt="">
+  </div>
+
+  <main id="conteudo">
+
+    <section class="cabecalho-simples" aria-labelledby="titulo-pagina">
+      <div class="container">
+        <h1 id="titulo-pagina">Contato</h1>
+        <p>Endereço, telefone e horário de funcionamento.</p>
+      </div>
+    </section>
+
+    <section class="secao" aria-label="Informações de contato">
+      <div class="container">
+        <div class="contato-grade">
+          <div class="bloco-contato"><h3>Endereço</h3><p data-campo="endereco"></p></div>
+          <div class="bloco-contato"><h3>Telefone</h3><p data-campo="telefone"></p></div>
+          <div class="bloco-contato"><h3>Funcionamento</h3><p data-campo="funcionamento"></p></div>
+        </div>
+        <div class="grupo-botoes">
+          <a class="botao" data-link-whatsapp target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp</a>
+          <a class="botao" href="agendar.html">Agendar horário</a>
+          <a class="botao botao-contorno" href="servicos.html">Ver serviços</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-marca"><img src="../imagens/logo-coimbra.jpg" alt="" aria-hidden="true">COIMBRA BARBEARIA</div>
+    <nav class="rodape-links" aria-label="Rodapé">
+      <a href="../index.html">Início</a><a href="servicos.html">Serviços</a><a href="sobre.html">A barbearia</a><a href="contato.html">Contato</a><a href="agendar.html">Agendar horário</a>
+    </nav>
+    <small>© <span id="ano"></span> Coimbra Barbearia. Todos os direitos reservados.</small>
+  </footer>
+
+  <script src="../js/dados.js"></script>
+  <script src="../js/script.js"></script>
+</body>
+</html>
