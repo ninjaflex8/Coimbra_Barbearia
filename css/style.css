@@ -1,7 +1,8 @@
-/* Estrutura geral, tipografia e acessibilidade */
+/* Estilo geral do site. */
 * { box-sizing: border-box; }
 html { scroll-padding-top: 100px; }
 body {
+  /* Cor de fundo, texto e fonte padrão. */
   margin: 0;
   background: #000000;
   color: #ffffff;
@@ -17,6 +18,7 @@ h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
 h3 { font-size: 1.6rem; margin-bottom: 8px; }
 .texto-suave { color: #b8b8b8; }
 
+/* Mostra uma borda ao navegar pelo teclado. */
 a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 3px;
@@ -25,12 +27,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .pular-conteudo:focus { top: 1rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
+/* Limita a largura do conteúdo e centraliza na tela. */
 .container { width: 88%; max-width: 1180px; margin: 0 auto; }
 .secao { padding: 90px 0; }
 .secao-painel { background: #141414; }
 .eyebrow-azul { color: #3b82f6; font-weight: 700; font-size: .85rem; margin-bottom: 12px; }
 
-/* Botões e grupos de ações */
+/* Botões. */
 .botao {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 48px; padding: 12px 24px;
@@ -43,8 +46,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .botao:disabled { background: #2b2b2b; border-color: #2b2b2b; color: #8a8a8a; cursor: not-allowed; }
 .grupo-botoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
 
-/* Cabeçalho fixo, marca e navegação */
+/* Cabeçalho e menu. */
 .cabecalho {
+  /* Fica no topo quando a página rola. */
   position: sticky; top: 0; z-index: 20;
   height: 88px; padding: 0 6vw;
   display: flex; align-items: center; justify-content: space-between;
@@ -64,7 +68,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .banner-pagina { height: clamp(360px, 42vw, 640px); background: #000000; display: flex; justify-content: center; }
 .banner-pagina img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Página inicial: destaque principal */
+/* Destaque da página inicial. */
 .destaque {
   min-height: 640px; display: flex; align-items: center; justify-content: flex-end;
   padding: 70px 6vw;
@@ -73,8 +77,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .destaque-caixa { background: #000000; border-left: 6px solid #1f6feb; padding: clamp(28px, 5vw, 56px); max-width: 460px; }
 .destaque-caixa p { color: #b8b8b8; max-width: 460px; }
 
-/* Página inicial: galeria em carrossel */
+/* Carrossel de imagens. */
 .carrossel { position: relative; background: #141414; }
+/* Esconde as imagens; o JavaScript mostra a que tem a classe ativo. */
 .slide { display: none; }
 .slide.ativo { display: block; }
 .slide img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; background: #222; }
@@ -86,12 +91,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .ponto { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #ffffff; background: transparent; padding: 0; cursor: pointer; }
 .ponto.ativo { background: #1f6feb; border-color: #1f6feb; }
 
-/* Página inicial: apresentação da barbearia */
+/* Texto de apresentação. */
 .apresentacao { display: flex; gap: 60px; align-items: center; }
 .apresentacao > div { flex: 1; }
 .apresentacao p { color: #b8b8b8; max-width: 520px; }
 
-/* Componentes reutilizados: cartões de serviço */
+/* Cartões de serviços. */
 .cartoes { display: flex; flex-wrap: wrap; gap: 20px; }
 .cartao-servico { background: #141414; border: 1px solid #2b2b2b; border-top: 5px solid #1f6feb; padding: 26px; display: flex; flex-direction: column; }
 .cartoes:not(.cartoes-lista) .cartao-servico { flex: 0 0 calc((100% - 40px) / 3); }
@@ -103,7 +108,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .cartao-base a { background: #1f6feb; color: #ffffff; padding: 8px 16px; font-weight: 700; text-decoration: none; }
 .cartao-base a:hover { background: #1858bd; }
 
-/* Página de serviços */
+/* Lista de serviços. */
 .faixa-azul { background: #1f6feb; padding: 70px 0; }
 .faixa-azul h1 { margin-bottom: 12px; }
 .faixa-azul p { max-width: 560px; margin: 0; }
@@ -114,7 +119,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .cartoes-lista .cartao-base { border-top: 0; padding: 0; gap: 22px; }
 .nota-preco { color: #b8b8b8; font-size: .85rem; margin-top: 20px; }
 
-/* Página da barbearia */
+/* Página sobre a barbearia. */
 .cabecalho-simples { padding: 80px 0 40px; }
 .cabecalho-simples .container { border-left: 8px solid #1f6feb; padding-left: 28px; }
 .cabecalho-simples p { max-width: 560px; color: #b8b8b8; margin: 0; }
@@ -131,13 +136,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .galeria img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #222; }
 .galeria figcaption { padding: 12px 14px; font-family: Georgia, serif; font-size: 1.3rem; border-top: 3px solid #1f6feb; }
 
-/* Contato */
+/* Blocos de contato. */
 .contato-grade { display: flex; gap: 20px; }
 .bloco-contato { flex: 1; background: #141414; border: 1px solid #2b2b2b; border-bottom: 5px solid #1f6feb; padding: 28px; }
 .bloco-contato h3 { color: #3b82f6; }
 .bloco-contato p { margin: 0; color: #b8b8b8; }
 
-/* Agendamento */
+/* Formulário de agendamento. */
 .agendar-grade { display: flex; gap: 40px; align-items: start; }
 .agendar-grade form { flex: 1.35; }
 .passo { border: 0; padding: 0; margin: 0 0 34px; }
@@ -161,7 +166,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .previa { background: #000000; border: 1px solid #2b2b2b; padding: 16px; margin: 0 0 18px; white-space: pre-wrap; font: .85rem/1.6 Arial, sans-serif; color: #b8b8b8; }
 .resumo .botao { width: 100%; margin-bottom: 10px; }
 
-/* Rodapé */
+/* Rodapé. */
 .rodape { background: #000000; border-top: 3px solid #1f6feb; padding: 40px 6vw 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 22px; }
 .rodape-marca { display: flex; align-items: center; gap: 10px; font-family: Georgia, serif; font-weight: 700; letter-spacing: .1em; font-size: 1.2rem; }
 .rodape-marca img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
@@ -170,8 +175,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .rodape-links a:hover { color: #3b82f6; }
 .rodape small { width: 100%; border-top: 1px solid #2b2b2b; padding-top: 16px; color: #b8b8b8; }
 
-/* Adaptações para tablets e celulares */
+/* Ajustes para telas menores. */
 @media (max-width: 900px) {
+  /* Em celular, o menu e as colunas mudam de tamanho. */
   .menu-toggle { display: block; }
   .menu { display: none; position: absolute; top: 88px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 16px; padding: 20px 6vw 26px; background: #000000; border-bottom: 3px solid #1f6feb; }
   .menu.aberto { display: flex; }

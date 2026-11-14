@@ -1,231 +1,243 @@
-/* Formatação, datas e mensagens do WhatsApp */
+/* JavaScript do site. */
+
+/* ===== FUNÇÕES AUXILIARES ===== */
 function formatarPreco(valor) {
-  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
-    .replace(/\u00a0/g, " ");
+  // Mostra o preço em reais.
+  return "R$ " + valor.toFixed(2).replace(".", ",");
 }
 
-// Cria a data no fuso local para evitar mudanças de dia por causa do UTC.
-function lerData(textoData) {
-  const [ano, mes, dia] = textoData.split("-").map(Number);
-  return new Date(ano, mes - 1, dia);
-}
-
-function formatarData(textoData) {
-  return lerData(textoData).toLocaleDateString("pt-BR", {
+function transformarDataEmTexto(data) {
+  // Separa ano, mês e dia.
+  var partes = data.split("-");
+  // No JavaScript, janeiro é o mês 0.
+  var dataEscolhida = new Date(partes[0], partes[1] - 1, partes[2]);
+  return dataEscolhida.toLocaleDateString("pt-BR", {
     weekday: "long", day: "numeric", month: "long", year: "numeric"
   });
 }
 
-function dataParaTexto(data) {
-  const mes = String(data.getMonth() + 1).padStart(2, "0");
-  const dia = String(data.getDate()).padStart(2, "0");
-  return `${data.getFullYear()}-${mes}-${dia}`;
+function transformarDataParaInput(data) {
+  // Formato usado pelo campo de data.
+  var ano = data.getFullYear();
+  var mes = String(data.getMonth() + 1).padStart(2, "0");
+  var dia = String(data.getDate()).padStart(2, "0");
+  return ano + "-" + mes + "-" + dia;
 }
 
-// Monta a mensagem pronta que será enviada ou copiada pelo cliente.
-function montarMensagem(nome, servico, textoData) {
-  return [
-    "Olá! Gostaria de agendar:",
-    "",
-    `*Nome:* ${nome}`,
-    `*Serviço:* ${servico.nome}`,
-    `*Data desejada:* ${formatarData(textoData)}`,
-    `*Valor:* ${formatarPreco(servico.preco)}`,
-    "",
-    "Por favor, confirme a disponibilidade para essa data."
-  ].join("\n");
+function criarLinkWhatsApp(mensagem) {
+  // Deixa só os números do telefone.
+  var numero = BARBEARIA.whatsapp.replace(/\D/g, "");
+  var texto = mensagem ? "?text=" + encodeURIComponent(mensagem) : "";
+  return "https://wa.me/" + numero + texto;
 }
 
-function criarLinkWhatsApp(texto = "") {
-  const numero = BARBEARIA.whatsapp.replace(/\D/g, "");
-  const mensagem = texto ? `?text=${encodeURIComponent(texto)}` : "";
-  return `https://wa.me/${numero}${mensagem}`;
+function buscarServico(id) {
+  // Procura um serviço pelo id.
+  for (var i = 0; i < SERVICOS.length; i++) {
+    if (SERVICOS[i].id === id) return SERVICOS[i];
+  }
+  return null;
 }
 
-/* Menu: alterna entre aberto e fechado, inclusive após navegar */
+/* ===== MENU E RODAPÉ ===== */
 function iniciarMenu() {
-  const botao = document.querySelector(".menu-toggle");
-  const menu = document.querySelector("#menu-principal");
+  // Pega o botão e o menu do HTML.
+  var botao = document.querySelector(".menu-toggle");
+  var menu = document.querySelector("#menu-principal");
+  // Para se o menu não existir.
   if (!botao || !menu) return;
 
-  function definirMenu(aberto) {
-    menu.classList.toggle("aberto", aberto);
-    botao.setAttribute("aria-expanded", String(aberto));
-    botao.querySelector("[aria-hidden]").textContent = aberto ? "×" : "☰";
-    botao.querySelector(".sr-only").textContent = aberto ? "Fechar menu" : "Abrir menu";
-  }
-
-  botao.addEventListener("click", () => {
-    definirMenu(botao.getAttribute("aria-expanded") !== "true");
+  botao.addEventListener("click", function () {
+    // Roda quando o botão é clicado.
+    var menuEstaAberto = menu.classList.contains("aberto");
+    // Abre ou fecha o menu.
+    menu.classList.toggle("aberto");
+    botao.setAttribute("aria-expanded", String(!menuEstaAberto));
+    botao.querySelector("[aria-hidden]").textContent = menuEstaAberto ? "☰" : "×";
+    botao.querySelector(".sr-only").textContent = menuEstaAberto ? "Abrir menu" : "Fechar menu";
   });
-  menu.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => definirMenu(false));
-  });
-}
 
-/* Rodapé: mantém o ano atualizado automaticamente */
-function iniciarAno() {
-  document.querySelectorAll("#ano").forEach(el => {
-    el.textContent = new Date().getFullYear();
-  });
-}
-
-/* Catálogo: cria os cartões a partir dos dados de serviços */
-function iniciarListaServicos() {
-  const paginaAgendamento = location.pathname.split("/").includes("pages")
-    ? "agendar.html"
-    : "pages/agendar.html";
-
-  document.querySelectorAll("[data-lista-servicos]").forEach(lista => {
-    lista.innerHTML = SERVICOS.map(s => `
-      <article class="cartao-servico">
-        <div class="cartao-topo">
-          <h3>${s.nome}</h3>
-          <span class="preco">${formatarPreco(s.preco)}</span>
-        </div>
-        <p>${s.descricao}</p>
-        <div class="cartao-base">
-          <a href="${paginaAgendamento}?servico=${s.id}">Agendar</a>
-        </div>
-      </article>
-    `).join("");
-  });
-}
-
-/* Contato: preenche os dados e o link de conversa */
-function iniciarContato() {
-  document.querySelectorAll("[data-campo]").forEach(el => {
-    const valor = BARBEARIA[el.dataset.campo];
-    el.textContent = valor || "A confirmar com a barbearia";
-  });
-  document.querySelectorAll("[data-link-whatsapp]").forEach(link => {
-    link.href = criarLinkWhatsApp();
-  });
-}
-
-/* Carrossel: troca a foto pelas setas e pelos indicadores */
-function iniciarCarrossel() {
-  const carrossel = document.querySelector("[data-carrossel]");
-  if (!carrossel) return;
-
-  const slides = carrossel.querySelectorAll(".slide");
-  const pontos = carrossel.querySelectorAll(".ponto");
-  let atual = 0;
-
-  function mostrar(indice) {
-    atual = (indice + slides.length) % slides.length;
-    slides.forEach((slide, i) => slide.classList.toggle("ativo", i === atual));
-    pontos.forEach((ponto, i) => {
-      ponto.classList.toggle("ativo", i === atual);
-      ponto.setAttribute("aria-current", i === atual ? "true" : "false");
+  var links = menu.querySelectorAll("a");
+  for (var i = 0; i < links.length; i++) {
+    // Fecha o menu após clicar em um link.
+    links[i].addEventListener("click", function () {
+      menu.classList.remove("aberto");
+      botao.setAttribute("aria-expanded", "false");
     });
   }
-
-  carrossel.querySelector(".seta-anterior").addEventListener("click", () => mostrar(atual - 1));
-  carrossel.querySelector(".seta-proxima").addEventListener("click", () => mostrar(atual + 1));
-  pontos.forEach((ponto, i) => {
-    ponto.addEventListener("click", () => mostrar(i));
-  });
-
-  mostrar(0);
 }
 
-/* Agendamento: controla escolhas, prévia, cópia e envio pelo WhatsApp */
-function iniciarAgendamento() {
-  const formulario = document.querySelector("#form-agendamento");
-  if (!formulario) return;
+function iniciarAno() {
+  // Mostra o ano atual no rodapé.
+  var anos = document.querySelectorAll("#ano");
+  for (var i = 0; i < anos.length; i++) anos[i].textContent = new Date().getFullYear();
+}
 
-  const listaServicos = document.querySelector("#opcoes-servico");
-  const campoData = document.querySelector("#data");
-  const avisoData = document.querySelector("#aviso-data");
-  const campoNome = document.querySelector("#nome");
-  const previa = document.querySelector("#previa");
-  const botaoEnviar = document.querySelector("#btn-enviar");
-  const botaoCopiar = document.querySelector("#btn-copiar");
-  const avisoCopia = document.querySelector("#aviso-copia");
+/* ===== SERVIÇOS E CONTATO ===== */
+function iniciarListaServicos() {
+  // Pega o local onde os cartões serão mostrados.
+  var listas = document.querySelectorAll("[data-lista-servicos]");
+  var paginaAgendamento = location.pathname.indexOf("pages") !== -1 ? "agendar.html" : "pages/agendar.html";
+  var html = "";
 
-  const escolha = { servicoId: null, data: "" };
+  // Cria um cartão para cada serviço.
+  for (var i = 0; i < SERVICOS.length; i++) {
+    var servico = SERVICOS[i];
+    html += "<article class=\"cartao-servico\"><div class=\"cartao-topo\">" +
+      "<h3>" + servico.nome + "</h3><span class=\"preco\">" + formatarPreco(servico.preco) + "</span>" +
+      "</div><p>" + servico.descricao + "</p><div class=\"cartao-base\">" +
+      "<a href=\"" + paginaAgendamento + "?servico=" + servico.id + "\">Agendar</a></div></article>";
+  }
+  // Coloca os cartões na página.
+  for (var j = 0; j < listas.length; j++) listas[j].innerHTML = html;
+}
 
-  // Cria as opções do formulário usando o catálogo central de serviços.
-  listaServicos.innerHTML = SERVICOS.map(s => `
-    <label class="opcao">
-      <input type="radio" name="servico" value="${s.id}" required>
-      <span class="opcao-corpo">
-        <strong>${s.nome}</strong>
-        ${s.duracao ? `<small>${s.duracao}</small>` : ""}
-        <span class="preco">${formatarPreco(s.preco)}</span>
-      </span>
-    </label>
-  `).join("");
+function iniciarContato() {
+  // Preenche os dados de contato.
+  var campos = document.querySelectorAll("[data-campo]");
+  var linksWhatsApp = document.querySelectorAll("[data-link-whatsapp]");
+  for (var i = 0; i < campos.length; i++) campos[i].textContent = BARBEARIA[campos[i].dataset.campo];
+  for (var j = 0; j < linksWhatsApp.length; j++) linksWhatsApp[j].href = criarLinkWhatsApp("");
+}
 
-  const servicoDaUrl = new URLSearchParams(location.search).get("servico");
-  const radioInicial = listaServicos.querySelector(`input[value="${servicoDaUrl}"]`);
-  if (radioInicial) {
-    radioInicial.checked = true;
-    escolha.servicoId = servicoDaUrl;
+/* ===== CARROSSEL DA HOME ===== */
+function iniciarCarrossel() {
+  // Pega o carrossel da Home.
+  var carrossel = document.querySelector("[data-carrossel]");
+  if (!carrossel) return;
+
+  var slides = carrossel.querySelectorAll(".slide");
+  var pontos = carrossel.querySelectorAll(".ponto");
+  var slideAtual = 0;
+
+  function mostrarSlide(indice) {
+    // Volta ao início ou ao fim, se necessário.
+    if (indice < 0) indice = slides.length - 1;
+    if (indice >= slides.length) indice = 0;
+    slideAtual = indice;
+
+    for (var i = 0; i < slides.length; i++) {
+      // Mostra somente o slide atual.
+      var estaAtivo = i === slideAtual;
+      slides[i].classList.toggle("ativo", estaAtivo);
+      pontos[i].classList.toggle("ativo", estaAtivo);
+      pontos[i].setAttribute("aria-current", estaAtivo ? "true" : "false");
+    }
   }
 
-  listaServicos.addEventListener("change", evento => {
-    escolha.servicoId = evento.target.value;
-    atualizarPrevia();
+  carrossel.querySelector(".seta-anterior").addEventListener("click", function () {
+    mostrarSlide(slideAtual - 1);
   });
+  carrossel.querySelector(".seta-proxima").addEventListener("click", function () {
+    mostrarSlide(slideAtual + 1);
+  });
+  for (var i = 0; i < pontos.length; i++) {
+    pontos[i].addEventListener("click", function () {
+      // Mostra a imagem do ponto clicado.
+      mostrarSlide(Array.prototype.indexOf.call(pontos, this));
+    });
+  }
+  mostrarSlide(0);
+}
 
-  // Limita o calendário aos próximos 60 dias.
-  const hoje = new Date();
-  const limite = new Date();
+/* ===== AGENDAMENTO ===== */
+function iniciarAgendamento() {
+  // Para se não estiver na página de agendamento.
+  var formulario = document.querySelector("#form-agendamento");
+  if (!formulario) return;
+
+  var listaServicos = document.querySelector("#opcoes-servico");
+  var campoData = document.querySelector("#data");
+  var campoNome = document.querySelector("#nome");
+  var avisoData = document.querySelector("#aviso-data");
+  var previa = document.querySelector("#previa");
+  var botaoEnviar = document.querySelector("#btn-enviar");
+  var botaoCopiar = document.querySelector("#btn-copiar");
+  var avisoCopia = document.querySelector("#aviso-copia");
+  // Guardam as escolhas do cliente.
+  var servicoEscolhido = null;
+  var dataEscolhida = "";
+  var html = "";
+
+  // Cria as opções de serviço.
+  for (var i = 0; i < SERVICOS.length; i++) {
+    var servico = SERVICOS[i];
+    html += "<label class=\"opcao\"><input type=\"radio\" name=\"servico\" value=\"" + servico.id + "\" required>" +
+      "<span class=\"opcao-corpo\"><strong>" + servico.nome + "</strong><span class=\"preco\">" +
+      formatarPreco(servico.preco) + "</span></span></label>";
+  }
+  listaServicos.innerHTML = html;
+
+  // Libera datas de hoje até 60 dias depois.
+  var hoje = new Date();
+  var limite = new Date();
   limite.setDate(hoje.getDate() + 60);
-  campoData.min = dataParaTexto(hoje);
-  campoData.max = dataParaTexto(limite);
-
-  campoData.addEventListener("change", () => {
-    avisoData.textContent = "";
-
-    if (!campoData.value) {
-      escolha.data = "";
-    } else if (DIAS_FECHADOS.includes(lerData(campoData.value).getDay())) {
-      escolha.data = "";
-      avisoData.textContent = "Não atendemos neste dia da semana. Escolha outra data.";
-    } else {
-      escolha.data = campoData.value;
-    }
-    atualizarPrevia();
-  });
-
-  campoNome.addEventListener("input", atualizarPrevia);
+  campoData.min = transformarDataParaInput(hoje);
+  campoData.max = transformarDataParaInput(limite);
 
   function atualizarPrevia() {
-    const servico = SERVICOS.find(s => s.id === escolha.servicoId);
-    const nome = campoNome.value.trim();
-    const completo = servico && escolha.data && nome;
+    // Pega o nome sem espaços extras.
+    var nome = campoNome.value.trim();
+    var servico = buscarServico(servicoEscolhido);
+    var formularioCompleto = nome && dataEscolhida && servico;
 
-    if (completo) {
-      previa.textContent = montarMensagem(nome, servico, escolha.data);
+    // Só cria a mensagem quando tudo estiver preenchido.
+    if (formularioCompleto) {
+      previa.textContent = "Olá! Gostaria de agendar:\n\n*Nome:* " + nome + "\n*Serviço:* " + servico.nome +
+        "\n*Data desejada:* " + transformarDataEmTexto(dataEscolhida) + "\n*Valor:* " +
+        formatarPreco(servico.preco) + "\n\nPor favor, confirme a disponibilidade para essa data.";
     } else {
       previa.textContent = "Preencha o serviço, a data e o seu nome para ver a mensagem.";
     }
-    botaoEnviar.disabled = !completo;
-    botaoCopiar.disabled = !completo;
+    // Desativa os botões se faltar algum dado.
+    botaoEnviar.disabled = !formularioCompleto;
+    botaoCopiar.disabled = !formularioCompleto;
   }
 
-  formulario.addEventListener("submit", evento => {
-    evento.preventDefault();
-    if (botaoEnviar.disabled) return;
-    window.open(criarLinkWhatsApp(previa.textContent), "_blank", "noopener,noreferrer");
+  listaServicos.addEventListener("change", function (evento) {
+    // Guarda o serviço marcado.
+    servicoEscolhido = evento.target.value;
+    atualizarPrevia();
   });
-
-  botaoCopiar.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(previa.textContent);
-      avisoCopia.textContent = "Mensagem copiada.";
-    } catch (erro) {
-      avisoCopia.textContent = "Não foi possível copiar. Selecione o texto e copie manualmente.";
+  campoData.addEventListener("change", function () {
+    // Confere se a barbearia abre neste dia.
+    var partes = campoData.value.split("-");
+    var data = new Date(partes[0], partes[1] - 1, partes[2]);
+    avisoData.textContent = "";
+    dataEscolhida = campoData.value;
+    if (DIAS_FECHADOS.indexOf(data.getDay()) !== -1) {
+      dataEscolhida = "";
+      avisoData.textContent = "Não atendemos neste dia da semana. Escolha outra data.";
     }
+    atualizarPrevia();
+  });
+  campoNome.addEventListener("input", atualizarPrevia);
+
+  formulario.addEventListener("submit", function (evento) {
+    // Impede o envio normal do formulário.
+    evento.preventDefault();
+    if (!botaoEnviar.disabled) window.open(criarLinkWhatsApp(previa.textContent), "_blank");
+  });
+  botaoCopiar.addEventListener("click", function () {
+    // Copia a mensagem para a área de transferência.
+    navigator.clipboard.writeText(previa.textContent).then(function () {
+      avisoCopia.textContent = "Mensagem copiada.";
+    }).catch(function () {
+      avisoCopia.textContent = "Não foi possível copiar. Selecione o texto e copie manualmente.";
+    });
   });
 
+  // Lê o serviço enviado pela página de serviços.
+  var idServicoDaUrl = new URLSearchParams(location.search).get("servico");
+  var opcaoInicial = listaServicos.querySelector("input[value='" + idServicoDaUrl + "']");
+  if (opcaoInicial) {
+    opcaoInicial.checked = true;
+    servicoEscolhido = idServicoDaUrl;
+  }
   atualizarPrevia();
 }
 
-/* Ativa somente os recursos presentes na página atual */
+/* ===== INICIALIZAÇÃO ===== */
 iniciarMenu();
 iniciarAno();
 iniciarListaServicos();
